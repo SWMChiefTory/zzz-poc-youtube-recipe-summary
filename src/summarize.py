@@ -28,7 +28,7 @@ def summarize_subtitles(subtitles):
         }
     ]
 
-    print("레시피 단계 요약 시작...")
+    print("\n--- 레시피 단계 요약 시작 ---")
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -39,4 +39,4 @@ def summarize_subtitles(subtitles):
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
-        return f"[요약 실패: {e}]"
+        return f"\n[요약 실패: {e}]"

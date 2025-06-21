@@ -3,7 +3,7 @@ import pysrt
 
 def extract_and_format_subtitles(srt_file_path):
     if not srt_file_path or not os.path.exists(srt_file_path):
-        print("SRT 파일 없음")
+        print("\nSRT 파일 없음")
         return [], ""
 
     try:

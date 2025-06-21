@@ -67,12 +67,11 @@ def download_audio(youtube_url, output_dir="audio", ffmpeg_path=None):
     for file in os.listdir(output_dir):
         if file.startswith(video_id) and file.endswith((".wav", ".m4a", ".opus", ".mp3")):
             audio_path = os.path.join(output_dir, file)
-            print(f"오디오 다운로드 완료: {os.path.basename(audio_path)}")
+            print(f"\n오디오 다운로드 완료: {os.path.basename(audio_path)}")
             return audio_path
 
-    print("오디오 파일을 찾을 수 없습니다.")
+    print("\n오디오 파일을 찾을 수 없습니다.")
     return None
-
 
 def download_subtitles(youtube_url, output_dir="subtitles", ffmpeg_location=None):
     if not os.path.exists(output_dir):
@@ -93,7 +92,7 @@ def download_subtitles(youtube_url, output_dir="subtitles", ffmpeg_location=None
             info_dict = ydl.extract_info(youtube_url, download=False)
             video_id = info_dict.get("id")
 
-            print(f"자막 다운로드 시작: {youtube_url}")
+            print(f"\n자막 다운로드 시작: {youtube_url}")
             ydl.download([youtube_url])
 
             downloaded_file_path = None
@@ -108,23 +107,23 @@ def download_subtitles(youtube_url, output_dir="subtitles", ffmpeg_location=None
                         found_vtt = os.path.join(output_dir, filename)
 
             if downloaded_file_path:
-                print(f".SRT 파일 다운로드 완료: {downloaded_file_path}")
+                print(f"\n.SRT 파일 다운로드 완료: {downloaded_file_path}")
                 return downloaded_file_path
             
             if found_vtt:
                 try:
                     srt_path = convert_vtt_to_srt(found_vtt)
                     os.remove(found_vtt)
-                    print(f".VTT to .SRT 완료: {downloaded_file_path}")
+                    print(f"\n.VTT to .SRT 완료: {downloaded_file_path}")
                     return srt_path
                 
                 except Exception as e:
-                    print(f"VTT to SRT 중 에러 발생: {e}")
+                    print(f"\nVTT to SRT 중 에러 발생: {e}")
                     return None
 
-            print("자막이 존재하지 않음")
+            print("\n자막이 존재하지 않음")
             return None
 
     except Exception as e:
-        print(f"유튜브 자막 다운로드 중 에러 발생: {e}")
+        print(f"\n유튜브 자막 다운로드 중 에러 발생: {e}")
         return None

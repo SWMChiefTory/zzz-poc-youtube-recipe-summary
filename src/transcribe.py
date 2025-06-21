@@ -6,7 +6,7 @@ from openai import OpenAI
 
 def transcribe_audio_to_srt(audio_path, output_dir="subtitles", is_premium=False):
     if not os.path.exists(audio_path):
-        print(f"Audio 파일 없음: {audio_path}")
+        print(f"\nAudio 파일 없음: {audio_path}")
         return None
     
     srt_path = ""
@@ -35,12 +35,12 @@ def transcribe_audio_to_srt(audio_path, output_dir="subtitles", is_premium=False
 
         try:
             model = WhisperModel(model_name, device=device, compute_type=compute_type)
-            print(f"Device: {device}, Model name: {model_name}, Compute type: {compute_type}")
+            print(f"\nDevice: {device}, Model name: {model_name}, Compute type: {compute_type}")
         except Exception as e:
-            print(f"모델 로딩 에러, {e}")
+            print(f"\n모델 로딩 에러, {e}")
             return None
 
-        print(f"전사 시작: {os.path.basename(audio_path)}")
+        print(f"\n전사 시작: {os.path.basename(audio_path)}")
 
         segments, info = model.transcribe(
             audio_path,
@@ -87,5 +87,5 @@ def transcribe_audio_to_srt(audio_path, output_dir="subtitles", is_premium=False
                     f.write(f"{sentence.strip()}\n\n")
                     sub_index += 1
 
-    print(f"SRT file 추출 완료: {os.path.basename(srt_path)}")
+    print(f"\nSRT file 추출 완료: {os.path.basename(srt_path)}")
     return srt_path
