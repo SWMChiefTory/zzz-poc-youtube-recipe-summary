@@ -14,7 +14,7 @@ def load_prompt(name: str) -> str:
     with open(path, encoding="utf-8") as f:
         return f.read()
 
-def summarize_subtitles(subtitles):
+def summarize_subtitles(subtitles, description):
     system_prompt = load_prompt("recipe_subtitle_prompt")
 
     messages = [
@@ -24,7 +24,7 @@ def summarize_subtitles(subtitles):
         },
         {
             "role": "user",
-            "content": f"다음은 레시피 자막입니다. 분석해서 JSON 출력 포맷에 맞게 요약해 주세요.\n\nsubtitles = {subtitles}"
+            "content": f"다음은 레시피 자막과 영상 설명란입니다. 분석해서 JSON 출력 포맷에 맞게 요약해 주세요.\n\nsubtitles = {subtitles}\ndescription = {description}"
         }
     ]
 

@@ -6,6 +6,22 @@ from src.summarize import summarize_subtitles
 from src.transcribe import transcribe_audio_to_srt
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
+import requests
+
+def get_youtube_description(video_id: str) -> str:
+    params = {
+        "part": "snippet",
+        "id": video_id,
+        "key": os.getenv("GOOGLE_API_KEY")
+    }
+
+    response = requests.get("https://www.googleapis.com/youtube/v3/videos", params=params)
+    data = response.json()
+
+    try:
+        return data["items"][0]["snippet"]["description"]
+    except (IndexError, KeyError):
+        return "ERROR: 설명란을 가져올 수 없음"
 
 def print_time_summary(time_logs) -> None:
     total_time = 0.0
@@ -70,12 +86,14 @@ def main():
             print(f"Error: {e}")
             return
     
+    description = get_youtube_description(video_id)
+    
     if srt_file:
         start_time = time.time()
         formatted_subs = extract_and_format_subtitles(srt_file)
         
         if formatted_subs:
-            summary = summarize_subtitles(formatted_subs)
+            summary = summarize_subtitles(subtitles=formatted_subs, description=description)
             print("레시피 요약 완료:")
             print(summary)
 
